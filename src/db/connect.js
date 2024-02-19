@@ -3,7 +3,7 @@ const { options } = require("../routes/products");
 
 
 const connectDB = (uri) => {
-    console.log("Hello , I am inside connectDB function....!!!");
+    console.log("Hello , I am inside the connectDB function....!!!");
     return mongoose.connect(uri)
 }
 
