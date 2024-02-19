@@ -102,9 +102,40 @@ module.exports = {
      }
 */
 
-const text = "What's up, world?";
-const segmenter = new Intl.Segmenter([], { granularity: 'word' });
-const segmentedText = segmenter.segment(text);
-const words = [...segmentedText].filter(s => s.isWordLike).map(s => s.segment);
-console.log(text);
-console.log(words);
+const fetchProductApi = async() => {
+    try{
+        const product_result = await fetch("https://product-api-a-testing.onrender.com/api/products");
+        const productRes = await product_result.json();
+        console.log(productRes);
+        const products = productRes.resProduct;
+        console.log("total number of products : "+products.length);
+
+        let sum = 0;
+        for(var i = 0; i < products.length; i++){
+            sum = sum + products[i].price;
+
+            console.log("product number "+(i+1)+" : ");
+            console.log("name of the product = "+products[i].name);
+            console.log("company is = "+products[i].company);
+            console.log("price is = $"+products[i].price+" USD ");
+            console.log("rating by user's = "+products[i].rating+" stars..");
+            console.log("\n");
+        }
+        console.log("total price of all the products of all companies = $"+sum+" USD \n");
+
+        let samsung_total = 0;
+        console.log("all the prices of different products of samsung : \n");
+        for(var i = 0; i < products.length; i++){
+            if(products[i].company === "samsung"){
+                console.log("price for "+products[i].name+" is = $"+products[i].price+" USD ");
+                samsung_total = samsung_total + products[i].price;
+            }
+        }
+        console.log("Total price of all the products of samsung company = $"+samsung_total+" USD ");
+    }
+    catch(err){
+        console.log("Error fetching the productAPI from web server....!!!!! : "+err);
+    }
+}
+
+fetchProductApi();
